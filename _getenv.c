@@ -1,17 +1,17 @@
 #include "shell.h"
 
+char *__findenv(const char *name, int *offset);
+
 /**
- * _findenv - This is the function  searches  the environment list to
- * find the environment variable name, and returns a pointer to the
- * corresponding value string.
- * @name: the path variable
- * @offset: The offset of the function
+ * __findenv - this is the function used to find the enviroment
+ * @name: the name of the enviroment to find
+ * @offset: the offset
  *
- * Return: On success it returns  a  pointer to the value in the environment
- * or NULL if there is no match
+ * Return: Always return a character pointer
+ *
  */
 
-char *_findenv(const char *name, int *offset)
+char *__findenv(const char *name, int *offset)
 {
 	int len, i;
 	const char *np;
@@ -19,38 +19,36 @@ char *_findenv(const char *name, int *offset)
 
 	if (name == NULL || environ == NULL)
 		return (NULL);
-
-	for (np = name; (*np && *np) != '='; ++np)
-
+	for (np = name; *np && *np != '='; ++np)
+		;
 	len = np - name;
 	for (p = environ; (cp = *p) != NULL; ++p)
 	{
 		for (np = name, i = len; i && *cp; i--)
+		{
 			if (*cp++ != *np++)
 				break;
+		}
+
 		if (i == 0 && *cp++ == '=')
 		{
 			*offset = p - environ;
-			return ((char *) cp);
+			return (cp);
 		}
 	}
 	return (NULL);
 }
 
 /**
- * _getenv - This is the function  searches  the environment list to
- * find the environment variable name, and returns a pointer to the
- * corresponding value string.
- * @name: the path variable
+ * _getenv - This is the getenv function
+ * @name: the name of the enviroment to find
  *
- *
- * Return: On success it returns  a  pointer to the value in the environment
- * or NULL if there is no match
+ * Return: Always a character pointer
  */
 
 char *_getenv(const char *name)
 {
 	int offset;
 
-	return (_findenv(name, &offset));
+	return (__findenv(name, &offset));
 }

@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <stddef.h>
 
 /*macros*/
 #define DELIM " \t\r\n\a"
@@ -23,13 +24,13 @@ size_t _strlen(const char *s);
 void loop(char **argv, char **env);
 int launch(char **args, char **argv, char **env);
 void print_err_msg(char *arg, char *argv);
-char *_strcpy(char *dest, char *src);
-char **splitLine(char *line);
-char *_strcat(char *dest, char *src);
+char *_strcpy(char *dest, const char *src);
+char *strcat(char *dest, const char *src);
 char *getPath(char *cmd);
-int _strcmp(char *s1, char *s2);
+int _strcmp(const char *s1, const char *s2);
 int _atoi(char *s);
 int hsh_print_env(char **args);
 int hsh_exit(char **args);
+char *_getenv(const char *name);
 
 #endif
