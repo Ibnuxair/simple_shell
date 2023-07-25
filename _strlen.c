@@ -1,17 +1,21 @@
-#include "stdio.h"
+#include "shell.h"
 
 /**
- * _strlen - The function used to count the length of a string
- * @string: The string passed to the function to count
- * Return: The number of characters in a string
- */
+ * _strlen - generate the lenth of a given string
+ * @s: the given string
+ * 
+ * return: the lenth of a string
+*/
 
-size_t _strlen(const char *string)
+size_t _strlen(const char *s)
 {
-	size_t len = 0;
-	/* This loop is used to count the number of char in a string */
-	/* The loop terminates when terminating char is found */
-	while (string[len] != '\0')
-		len++;
-	return (len);
+    size_t count = 0;
+    
+    while (s[count] != '\0')
+    {
+        count++;
+    }
+    
+    return count;
+    
 }

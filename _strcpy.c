@@ -1,30 +1,24 @@
 #include "shell.h"
 
 /**
- * _strcpy - The   strcpy()   function  copies  the  string pointed to by src
- * including  the  tmnting null  byte ('\0'), 2 de buffer pointed to by dest.
- * The strings may not  overlap,  and  the destination  string  dest must be
- * large enough to receive the copy.
- * @dest: This is the destination string
- * @src: This is the source string
+ * *_strncpy - copies a string
+ * @dest: destination
+ * @src: source
  *
- * Return: The  strcpy() and strncpy() functions return a pointer to
- * the destination string dest.
- *
+ *Return: dest
  */
 
-char *_strcpy(char *dest, const char *src)
+char *_strcpy(char *dest, char *src)
 {
-	int i = 0;
+	int j;
 
-	/* To avoid the program from crashing */
-	if (dest == NULL || src == NULL)
-		return (NULL);
-	while (src[i] != '\0')
+	j = 0;
+	while (src[j] != '\0')
 	{
-		dest[i] = src[i];
-		i++;
+		dest[j] = src[j];
+		j++;
 	}
-	dest[i] = '\0';
+	dest[j] = '\0';
+
 	return (dest);
 }

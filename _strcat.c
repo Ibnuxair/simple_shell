@@ -1,21 +1,31 @@
 #include "shell.h"
 
 /**
- * _strcat - this is a function to cancatenate src string to des string
- * @des: this is the destination string
- * @src: this is the source string
- * Return: The destination cancatenated
+ * *_strcat - concatenates two strings
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: Returns a pointer to the resulting string dest
  */
 
-char *_strcat(char *des, const char *src)
+char *_strcat(char *dest, char *src)
 {
-	size_t d = 0, s = 0;
+	int i;
+	int j;
 
-	/* This loop used to find the terminating char in des strng */
-	while (des[d] != '\0')
-		d++;
-	/* This loop used to cancatenate each char from scr to des string */
-	for (; src[s] != '\0'; s++)
-		des[d++] = src[s];
-	return (des);
+	i = 0;
+	while (dest[i] != '\0')
+	{
+		i++;
+	}
+
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
