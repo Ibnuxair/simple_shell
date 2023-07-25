@@ -32,6 +32,7 @@ int _strcmp(char *s1, char *s2);
 int _atoi(char *s);
 int hsh_print_env(char **args);
 int hsh_exit(char **args);
+char *__findenv(const char *name, int *offset);
 char *_getenv(const char *name);
 
 #endif

@@ -12,7 +12,7 @@ char *getPath(char *cmd)
 	int cmdLen, dirLen;
 	struct stat buffer;
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
 	pathCpy = malloc(_strlen(path) + 1);
