@@ -11,7 +11,7 @@
 int exec(char **args, char **argv, char **env)
 {
 	size_t i;
-       	/* Array of builtin commands */
+	/* Array of builtin commands */
 	char *builtin_cmd[] = {
 		"exit",
 		"env"
