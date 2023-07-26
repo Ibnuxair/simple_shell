@@ -8,7 +8,6 @@
  */
 int launch(char **args, char **argv, char **env)
 {
-	/*int from_pipe = !isatty(STDIN_FILENO);*/
 	pid_t pid;
 	int status;
 	char *cmd, *cmdPath;
@@ -16,7 +15,11 @@ int launch(char **args, char **argv, char **env)
 	cmd = args[0];
 	cmdPath = getPath(cmd);
 	if (cmdPath == NULL || access(cmdPath, F_OK) == -1)
+	{
 		print_err_msg(args[0], argv[0]);
+		free(cmdPath);
+		exit(127);
+	}
 	else
 	{
 		pid = fork();
@@ -24,7 +27,11 @@ int launch(char **args, char **argv, char **env)
 		{
 			/*Child process*/
 			if (execve(cmdPath, args, env) == -1)
+			{
 				print_err_msg(args[0], argv[0]);
+				free(cmdPath);
+				exit(127);
+			}
 		}
 		else if (pid < 0)
 		{
@@ -32,16 +39,7 @@ int launch(char **args, char **argv, char **env)
 			perror("hsh");
 		}
 		else
-			/*{*/
-			/*Parent process*/
-			/*do {*/
-			waitpid(pid, &status, WUNTRACED);
-		/*if (!from_pipe)*/
-		/*write(STDOUT_FILENO, "($)\n", 4);*/
-		/*else*/
-		/*write(STDOUT_FILENO, "$\n", 2);*/
-		/*} while (!WIFEXITED(status) && !WIFSIGNALED(status));*/
-		/*}*/
+			waitpid(pid, &status, 0);
 	}
 	if (cmdPath != NULL && cmdPath != cmd)
 		free(cmdPath);
