@@ -13,6 +13,7 @@
 
 /*macros*/
 #define DELIM " \t\r\n\a"
+#define BUFFER_SIZE 1024
 
 extern char **environ;
 
@@ -34,5 +35,7 @@ int hsh_print_env(char **args);
 int hsh_exit(char **args);
 char *__findenv(const char *name, int *offset);
 char *_getenv(const char *name);
+/*const char *_strchr(const char *s, char c);*/
+/*char *_strtok(char *line, const char *delim);*/
 
 #endif
