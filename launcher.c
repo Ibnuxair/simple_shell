@@ -9,7 +9,7 @@
 int launch(char **args, char **argv, char **env)
 {
 	pid_t pid;
-	int status;
+	int status, exit_status;
 	char *cmd, *cmdPath;
 
 	cmd = args[0];
@@ -39,10 +39,21 @@ int launch(char **args, char **argv, char **env)
 			perror("hsh");
 		}
 		else
+		{
 			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+			{
+				exit_status = WEXITSTATUS(status);
+				if (exit_status != 0)
+				{
+					free(cmdPath);
+					exit(exit_status);
+				}
+			}
+		}
+		if (cmdPath != NULL && cmdPath != cmd)
+			free(cmdPath);
+		return (1);
 	}
-	if (cmdPath != NULL && cmdPath != cmd)
-		free(cmdPath);
-	return (1);
 }
 
