@@ -13,10 +13,12 @@ int hsh_exit(char **args)
 	if (args[1] != NULL)
 	{
 		stat = _atoi(args[1]);
-		exit(stat);
 	}
 	else
-		exit(stat);
+	{
+		stat = 2;
+	}
+	exit(stat);
 }
 /**
  * hsh_print_env -  prints the current environment
