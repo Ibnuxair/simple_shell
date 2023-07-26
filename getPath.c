@@ -29,7 +29,6 @@ char *getPath(char *cmd)
 		filePath = malloc(dirLen + cmdLen + 2);
 		if (filePath == NULL)
 		{
-			perror("Memory allocation error");
 			free(pathCpy);
 			return (NULL);
 		}
