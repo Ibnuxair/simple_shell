@@ -8,7 +8,7 @@
  */
 int launch(char **args, char **argv, char **env)
 {
-	int from_pipe = !isatty(STDIN_FILENO);
+	/*int from_pipe = !isatty(STDIN_FILENO);*/
 	pid_t pid;
 	int status;
 	char *cmd, *cmdPath;
@@ -32,16 +32,16 @@ int launch(char **args, char **argv, char **env)
 			perror("hsh");
 		}
 		else
-		{
+			/*{*/
 			/*Parent process*/
-			do {
-				waitpid(pid, &status, WUNTRACED);
-				if (!from_pipe)
-					write(STDOUT_FILENO, "($)\n", 4);
-				else
-					write(STDOUT_FILENO, "$\n", 2);
-			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-		}
+			/*do {*/
+			waitpid(pid, &status, WUNTRACED);
+		/*if (!from_pipe)*/
+		/*write(STDOUT_FILENO, "($)\n", 4);*/
+		/*else*/
+		/*write(STDOUT_FILENO, "$\n", 2);*/
+		/*} while (!WIFEXITED(status) && !WIFSIGNALED(status));*/
+		/*}*/
 	}
 	if (cmdPath != NULL && cmdPath != cmd)
 		free(cmdPath);
