@@ -14,10 +14,6 @@ int hsh_exit(char **args)
 	{
 		stat = _atoi(args[1]);
 	}
-	else
-	{
-		stat = 2;
-	}
 	exit(stat);
 }
 /**
