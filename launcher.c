@@ -1,5 +1,21 @@
 #include "shell.h"
 /**
+ * execCmd - executes the given command
+ * @cmdPath: the command path
+ * @args: the arguments
+ * @env: the environment variable
+ * Return: nothing
+ */
+void execCmd(char *cmdPath, char **args, char **env)
+{
+	if (execve(cmdPath, args, env) == -1)
+	{
+		perror(cmdPath);
+		free(cmdPath);
+		exit(127);
+	}
+}
+/**
  * launch - creates a process and waits it to terminate
  * @args: the arguments to execute
  * @env: the environment variables
@@ -20,40 +36,29 @@ int launch(char **args, char **argv, char **env)
 		free(cmdPath);
 		exit(127);
 	}
+
+	pid = fork();
+	if (pid == 0)
+	{
+		execCmd(cmdPath, args, env);
+	}
+	else if (pid < 0)
+		perror("hsh");
 	else
 	{
-		pid = fork();
-		if (pid == 0)
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
 		{
-			/*Child process*/
-			if (execve(cmdPath, args, env) == -1)
+			exit_status = WEXITSTATUS(status);
+			if (exit_status != 0)
 			{
-				print_err_msg(args[0], argv[0]);
 				free(cmdPath);
-				exit(127);
+				exit(exit_status);
 			}
 		}
-		else if (pid < 0)
-		{
-			/*Error forking*/
-			perror("hsh");
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-			{
-				exit_status = WEXITSTATUS(status);
-				if (exit_status != 0)
-				{
-					free(cmdPath);
-					exit(exit_status);
-				}
-			}
-		}
-		if (cmdPath != NULL && cmdPath != cmd)
-			free(cmdPath);
-		return (1);
 	}
+	if (cmdPath != NULL && cmdPath != cmd)
+		free(cmdPath);
+	return (1);
 }
 
