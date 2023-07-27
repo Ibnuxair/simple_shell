@@ -20,8 +20,6 @@ void loop(char **argv, char **env)
 		}
 		line = readLine();
 		args = splitLine(line);
-		if (!args)
-			continue;
 		status = exec(args, argv, env);
 
 		/*free(line);*/

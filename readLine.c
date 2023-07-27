@@ -33,11 +33,13 @@ char *readLine(void)
 	{
 		if (feof(stdin))
 		{
+			free(line);
 			exit(EXIT_SUCCESS);
 		}
 		else
 		{
 			perror("hsh: getline\n");
+			free(line);
 			exit(EXIT_FAILURE);
 		}
 	}

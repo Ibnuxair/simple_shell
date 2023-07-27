@@ -1,32 +1,32 @@
 #include "shell.h"
+
 /**
- * splitLine - split a string into an array of words
- * @line: the string to split
- *
- * Return: a null terminated array of words
+ * lineTokenizer - tokenizes line
+ * @line: line to be tokenized
+ * @tokensNum: number of tokens
+ * Return: tokens array or NULL when the memory allocation fails
  */
-char **splitLine(char *line)
+char **lineTokenizer(char *line, int *tokensNum)
 {
 	char *lineCopy, *token, **tokens;
-	int i = 0, tokensNum = 0;
+	int j, i = 0;
 
 	lineCopy = malloc(sizeof(char) * (_strlen(line) + 1));
 	if (!lineCopy)
-	{
-		exit(EXIT_FAILURE);
-	}
+		return (NULL);
 	_strcpy(lineCopy, line);
 	token = strtok(lineCopy, DELIM);
 	while (token)
 	{
-		tokensNum++;
+		(*tokensNum)++;
 		token = strtok(NULL, DELIM);
 	}
-	tokens = malloc(sizeof(*tokens) * (tokensNum + 1));
+
+	tokens = malloc(sizeof(*tokens) * ((*tokensNum) + 1));
 	if (!tokens)
 	{
 		free(lineCopy);
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 	_strcpy(lineCopy, line);
 	token = strtok(lineCopy, DELIM);
@@ -35,9 +35,11 @@ char **splitLine(char *line)
 		tokens[i] = malloc(sizeof(char) * (_strlen(token) + 1));
 		if (!tokens[i])
 		{
-			free(lineCopy);
+			for (j = 0; j < i; j++)
+				free(tokens[j]);
 			free(tokens);
-			exit(EXIT_FAILURE);
+			free(lineCopy);
+			return (NULL);
 		}
 		_strcpy(tokens[i], token);
 		i++;
@@ -45,5 +47,27 @@ char **splitLine(char *line)
 	}
 	tokens[i] = NULL;
 	free(lineCopy);
+	return (tokens);
+}
+
+/**
+ * splitLine - split a string into an array of words
+ * @line: the string to split
+ * Return: tokens or NULL
+ */
+char **splitLine(char *line)
+{
+	int tokensNum = 0;
+	char **tokens;
+
+	tokens = lineTokenizer(line, &tokensNum);
+	if (!tokens)
+	{
+		free(line);
+		return (NULL);
+	}
+
+	free(line);
+
 	return (tokens);
 }
