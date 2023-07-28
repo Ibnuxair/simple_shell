@@ -37,7 +37,7 @@ int hsh_exit(char **args)
 	{
 		if (is_valid_exit_status(args[1]))
 		{
-			stat = atoi(args[1]);
+			stat = _atoi(args[1]);
 			for (i = 0; args[i] != NULL; i++)
 				free(args[i]);
 			free(args);
@@ -46,8 +46,8 @@ int hsh_exit(char **args)
 		else
 		{
 			write(STDERR_FILENO, error_message,
-			      strlen(error_message));
-			write(STDERR_FILENO, args[1], strlen(args[1]));
+			      _strlen(error_message));
+			write(STDERR_FILENO, args[1], _strlen(args[1]));
 			write(STDERR_FILENO, "\n", 1);
 			for (i = 0; args[i] != NULL; i++)
 				free(args[i]);
