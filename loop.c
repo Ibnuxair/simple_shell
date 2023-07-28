@@ -31,6 +31,9 @@ void loop(char **argv, char **env)
 		}
 		free(args);
 		/*args = NULL;*/
-
+		if (status == 2)
+		{
+			break;
+		}
 	} while (status);
 }

@@ -8,12 +8,17 @@
  */
 int hsh_exit(char **args)
 {
-	int stat = 0;
+	int i, stat = 0;
 
 	if (args[1] != NULL)
 	{
 		stat = _atoi(args[1]);
 	}
+	for (i = 0; args[i] != NULL; i++)
+	{
+		free(args[i]);
+	}
+	free(args);
 	exit(stat);
 }
 /**
