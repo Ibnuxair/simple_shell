@@ -16,6 +16,34 @@ void execCmd(char *cmdPath, char **args, char **env)
 	}
 }
 /**
+ * exec_bin_ls - executes /bin/ls without path
+ * @env: the environment variale
+*/
+void exec_bin_ls(char **env)
+{
+	char *args[2];
+	pid_t pid;
+	int status, exit_status;
+
+	args[0] = "/bin/ls";
+	args[1] = NULL;
+	pid = fork();
+	if (pid == 0)
+		execCmd(args[0], args, env);
+	else if (pid < 0)
+		perror("hsh");
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+		{
+			exit_status = WEXITSTATUS(status);
+			if (exit_status != 0)
+				exit(exit_status);
+		}
+	}
+}
+/**
  * launch - creates a process and waits it to terminate
  * @args: the arguments to execute
  * @env: the environment variables
@@ -37,28 +65,31 @@ int launch(char **args, char **argv, char **env)
 		exit(127);
 	}
 
-	pid = fork();
-	if (pid == 0)
-	{
-		execCmd(cmdPath, args, env);
-	}
-	else if (pid < 0)
-		perror("hsh");
+	if (_strcmp(cmd, "/bin/ls") == 0)
+		exec_bin_ls(env);
 	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
+		pid = fork();
+		if (pid == 0)
+			execCmd(cmdPath, args, env);
+		else if (pid < 0)
+			perror("hsh");
+		else
 		{
-			exit_status = WEXITSTATUS(status);
-			if (exit_status != 0)
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
 			{
-				free(cmdPath);
-				exit(exit_status);
+				exit_status = WEXITSTATUS(status);
+				if (exit_status != 0)
+				{
+					free(cmdPath);
+					exit(exit_status);
+				}
 			}
 		}
+		if (cmdPath != NULL && cmdPath != cmd)
+			free(cmdPath);
 	}
-	if (cmdPath != NULL && cmdPath != cmd)
-		free(cmdPath);
 	return (1);
 }
 

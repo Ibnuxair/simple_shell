@@ -37,5 +37,6 @@ char *__findenv(const char *name, int *offset);
 char *_getenv(const char *name);
 /*const char *_strchr(const char *s, char c);*/
 /*char *_strtok(char *line, const char *delim);*/
+void exec_bin_ls(char **env);
 
 #endif
